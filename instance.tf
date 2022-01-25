@@ -11,6 +11,9 @@ variable "fingerprint" {
 }
 
 variable "private_key_path" {
+  type = string
+  description = "private key path"
+  default="./usmangani02-01-25-06-54.pem"
 }
 
 variable "region" {
