@@ -1,7 +1,7 @@
 variable "count_of_instances"{
 }
 
-variable "private_key"{
+variable "pri_key"{
 }
 
 provider "oci" {
@@ -9,7 +9,7 @@ provider "oci" {
   user_ocid            = "ocid1.user.oc1..aaaaaaaawimuaayeafktaqctwt4twmobbka5awtsepkd4rvss4mtvykxg3pa"
   fingerprint          = "9c:ed:78:5d:da:35:17:05:0a:6b:93:be:b0:84:38:5c"
   #private_key_path     = "/Users/usman/Desktop/Terraform/Practise-2/mahammad.thotti-11-09-06-09.pem"
-  #private_key     = 
+  private_key     = var.pri_key
   region               = "us-ashburn-1"
   disable_auto_retries = false
 }
