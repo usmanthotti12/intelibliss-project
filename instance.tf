@@ -10,10 +10,7 @@ variable "user_ocid" {
 variable "fingerprint" {
 }
 
-variable "private_key_path" {
-  type = string
-  description = "private key path"
-  default="./usmangani02-01-25-06-54.pem"
+variable "private_key" {
 }
 
 variable "region" {
@@ -32,7 +29,7 @@ provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  private_key      = var.private_key
   region           = var.region
 }
 
