@@ -134,9 +134,9 @@ resource "oci_core_instance" "test_instance" {
     ssh_authorized_keys = var.ssh_public_key
     user_data           = base64encode(file("./userdata/bootstrap"))
   }
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}" = "awesome-app-server"
-  }
+#   defined_tags = {
+#     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}" = "awesome-app-server"
+#   }
 
   freeform_tags = {
     "freeformkey${count.index}" = "freeformvalue${count.index}"
@@ -164,6 +164,8 @@ resource "oci_core_volume" "test_block_volume" {
   size_in_gbs         = var.db_size
 }
 
+
+
 resource "oci_core_volume_attachment" "test_block_attach" {
   count           = var.num_instances * var.num_iscsi_volumes_per_instance
   attachment_type = "iscsi"
@@ -181,7 +183,8 @@ resource "oci_core_volume_attachment" "test_block_attach" {
 resource "oci_core_volume" "test_block_volume_paravirtualized" {
   count               = var.num_instances * var.num_paravirtualized_volumes_per_instance
   availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
+  
+  = var.compartment_ocid
   display_name        = "TestBlockParavirtualized${count.index}"
   size_in_gbs         = var.db_size
 }
