@@ -183,8 +183,7 @@ resource "oci_core_volume_attachment" "test_block_attach" {
 resource "oci_core_volume" "test_block_volume_paravirtualized" {
   count               = var.num_instances * var.num_paravirtualized_volumes_per_instance
   availability_domain = data.oci_identity_availability_domain.ad.name
-  
-  = var.compartment_ocid
+  compartment_id      = var.compartment_ocid
   display_name        = "TestBlockParavirtualized${count.index}"
   size_in_gbs         = var.db_size
 }
