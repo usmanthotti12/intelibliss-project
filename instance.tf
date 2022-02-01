@@ -22,7 +22,7 @@ resource "oci_core_instance" "testhost" {
   count = var.count_of_instances
   availability_domain = "ubQd:US-ASHBURN-AD-2"
   compartment_id      = "ocid1.compartment.oc1..aaaaaaaaywbpujwoxt7wpxvxawpv2xneun36ccmwk4baal7gpjmsswosmrwq"
-  shape               = "VM.Standard.E2.1.Micro"
+  shape               = "VM.Standard.A1.Flex"
   shape_config {
     memory_in_gbs = 1
     ocpus         = 1
