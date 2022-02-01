@@ -50,7 +50,7 @@ variable "num_paravirtualized_volumes_per_instance" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard.E3.Flex"
+  default = "VM.Standard.E2.1.Micro"
 }
 
 variable "instance_ocpus" {
