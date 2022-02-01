@@ -28,8 +28,8 @@ resource "oci_core_instance" "testhost" {
     ocpus         = 1
   }
   source_details {
-    source_id   = "ocid1.image.oc1.iad.aaaaaaaagubx53kzend5acdvvayliuna2fs623ytlwalehfte7z2zdq7f6ya"
-    #source_id = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+    #source_id   = "ocid1.image.oc1.iad.aaaaaaaagubx53kzend5acdvvayliuna2fs623ytlwalehfte7z2zdq7f6ya"
+    source_id = "ocid1.image.oc1.iad.aaaaaaaaxnihckyl7dku6uckrbkequg6dc5vbvdld44wzkqzv7i7g6zlv3ja"
     source_type = "image"
   }
   # Optional
