@@ -78,6 +78,7 @@ variable "flex_instance_image_ocid" {
   type = map(string)
   default = {
     us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaac6jy4yovh7u6k7qguocu2wroyllwybfro6cir5mz5lsfdy7gg2cq"
+    ap-hyderabad-1 = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaaekpemzvbfdzhbr7rn56dyd2izcahouohna63qm2uaww5fcrg3viq"
    
   }
 }
