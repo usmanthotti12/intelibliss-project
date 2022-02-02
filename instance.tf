@@ -78,7 +78,7 @@ variable "flex_instance_image_ocid" {
   type = map(string)
   default = {
     us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaac6jy4yovh7u6k7qguocu2wroyllwybfro6cir5mz5lsfdy7gg2cq"
-    ap-hyderabad-1 = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaaekpemzvbfdzhbr7rn56dyd2izcahouohna63qm2uaww5fcrg3viq"
+    #ap-hyderabad-1 = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaaekpemzvbfdzhbr7rn56dyd2izcahouohna63qm2uaww5fcrg3viq"
    
   }
 }
@@ -155,52 +155,52 @@ resource "oci_core_instance" "test_instance" {
 
 # Define the volumes that are attached to the compute instances.
 
-resource "oci_core_volume" "test_block_volume" {
-  count               = var.num_instances * var.num_iscsi_volumes_per_instance
-  availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "TestBlock${count.index}"
-  size_in_gbs         = var.db_size
-}
+# resource "oci_core_volume" "test_block_volume" {
+#   count               = var.num_instances * var.num_iscsi_volumes_per_instance
+#   availability_domain = data.oci_identity_availability_domain.ad.name
+#   compartment_id      = var.compartment_ocid
+#   display_name        = "TestBlock${count.index}"
+#   size_in_gbs         = var.db_size
+# }
 
 
 
-resource "oci_core_volume_attachment" "test_block_attach" {
-  count           = var.num_instances * var.num_iscsi_volumes_per_instance
-  attachment_type = "iscsi"
-  instance_id     = oci_core_instance.test_instance[floor(count.index / var.num_iscsi_volumes_per_instance)].id
-  volume_id       = oci_core_volume.test_block_volume[count.index].id
-  device          = count.index == 0 ? "/dev/oracleoci/oraclevdb" : ""
+# resource "oci_core_volume_attachment" "test_block_attach" {
+#   count           = var.num_instances * var.num_iscsi_volumes_per_instance
+#   attachment_type = "iscsi"
+#   instance_id     = oci_core_instance.test_instance[floor(count.index / var.num_iscsi_volumes_per_instance)].id
+#   volume_id       = oci_core_volume.test_block_volume[count.index].id
+#   device          = count.index == 0 ? "/dev/oracleoci/oraclevdb" : ""
 
-  # Set this to enable CHAP authentication for an ISCSI volume attachment. The oci_core_volume_attachment resource will
-  # contain the CHAP authentication details via the "chap_secret" and "chap_username" attributes.
-  use_chap = true
-  # Set this to attach the volume as read-only.
-  #is_read_only = true
-}
+#   # Set this to enable CHAP authentication for an ISCSI volume attachment. The oci_core_volume_attachment resource will
+#   # contain the CHAP authentication details via the "chap_secret" and "chap_username" attributes.
+#   use_chap = true
+#   # Set this to attach the volume as read-only.
+#   #is_read_only = true
+# }
 
-resource "oci_core_volume" "test_block_volume_paravirtualized" {
-  count               = var.num_instances * var.num_paravirtualized_volumes_per_instance
-  availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "TestBlockParavirtualized${count.index}"
-  size_in_gbs         = var.db_size
-}
+# resource "oci_core_volume" "test_block_volume_paravirtualized" {
+#   count               = var.num_instances * var.num_paravirtualized_volumes_per_instance
+#   availability_domain = data.oci_identity_availability_domain.ad.name
+#   compartment_id      = var.compartment_ocid
+#   display_name        = "TestBlockParavirtualized${count.index}"
+#   size_in_gbs         = var.db_size
+# }
 
-resource "oci_core_volume_attachment" "test_block_volume_attach_paravirtualized" {
-  count           = var.num_instances * var.num_paravirtualized_volumes_per_instance
-  attachment_type = "paravirtualized"
-  instance_id     = oci_core_instance.test_instance[floor(count.index / var.num_paravirtualized_volumes_per_instance)].id
-  volume_id       = oci_core_volume.test_block_volume_paravirtualized[count.index].id
-  # Set this to attach the volume as read-only.
-  #is_read_only = true
-}
+# resource "oci_core_volume_attachment" "test_block_volume_attach_paravirtualized" {
+#   count           = var.num_instances * var.num_paravirtualized_volumes_per_instance
+#   attachment_type = "paravirtualized"
+#   instance_id     = oci_core_instance.test_instance[floor(count.index / var.num_paravirtualized_volumes_per_instance)].id
+#   volume_id       = oci_core_volume.test_block_volume_paravirtualized[count.index].id
+#   # Set this to attach the volume as read-only.
+#   #is_read_only = true
+# }
 
-resource "oci_core_volume_backup_policy_assignment" "policy" {
-  count     = var.num_instances
-  asset_id  = oci_core_instance.test_instance[count.index].boot_volume_id
-  policy_id = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
-}
+# resource "oci_core_volume_backup_policy_assignment" "policy" {
+#   count     = var.num_instances
+#   asset_id  = oci_core_instance.test_instance[count.index].boot_volume_id
+#   policy_id = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
+# }
 
 resource "null_resource" "remote-exec" {
   depends_on = [
