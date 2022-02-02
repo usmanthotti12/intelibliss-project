@@ -50,7 +50,7 @@ variable "num_paravirtualized_volumes_per_instance" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard.E2.1.Micro"
+  default = "VM.Standard.A1.Flex"
 }
 
 variable "instance_ocpus" {
@@ -77,10 +77,8 @@ variable "instance_image_ocid" {
 variable "flex_instance_image_ocid" {
   type = map(string)
   default = {
-    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaa6hooptnlbfwr5lwemqjbu3uqidntrlhnt45yihfj222zahe7p3wq"
-    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa6tp7lhyrcokdtf7vrbmxyp2pctgg4uxvt4jz4vc47qoc2ec4anha"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaadvi77prh3vjijhwe5xbd6kjg3n5ndxjcpod6om6qaiqeu3csof7a"
-    uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaw5gvriwzjhzt2tnylrfnpanz5ndztyrv3zpwhlzxdbkqsjfkwxaq"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaac6jy4yovh7u6k7qguocu2wroyllwybfro6cir5mz5lsfdy7gg2cq"
+   
   }
 }
 
