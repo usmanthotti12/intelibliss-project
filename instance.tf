@@ -99,7 +99,7 @@ resource "oci_core_instance" "test_instance" {
   count               = var.num_instances
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestInstance${count.index}"
+  display_name        = "TestInstance-usman${count.index}"
   shape               = var.instance_shape
 
   shape_config {
@@ -159,7 +159,7 @@ resource "oci_core_volume" "test_block_volume" {
   count               = var.num_instances * var.num_iscsi_volumes_per_instance
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestBlock${count.index}"
+  display_name        = "TestBlock-usman${count.index}"
   size_in_gbs         = var.db_size
 }
 
@@ -183,7 +183,7 @@ resource "oci_core_volume" "test_block_volume_paravirtualized" {
   count               = var.num_instances * var.num_paravirtualized_volumes_per_instance
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestBlockParavirtualized${count.index}"
+  display_name        = "TestBlockParavirtualized-usman${count.index}"
   size_in_gbs         = var.db_size
 }
 
@@ -300,7 +300,7 @@ output "attachment_instance_id" {
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = var.compartment_ocid
-  display_name   = "TestVcn"
+  display_name   = "TestVcn-usman"
   dns_label      = "testvcn"
 }
 
