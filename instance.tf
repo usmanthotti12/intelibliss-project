@@ -202,33 +202,59 @@ resource "oci_core_volume_backup_policy_assignment" "policy" {
   policy_id = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
 }
 
-# resource "null_resource" "remote-exec" {
-#   depends_on = [
-#     oci_core_instance.test_instance,
-#     oci_core_volume_attachment.test_block_attach,
-#   ]
-#   count = var.num_instances * var.num_iscsi_volumes_per_instance
+resource "null_resource" "remote-exec" {
+  depends_on = [
+    oci_core_instance.test_instance,
+    oci_core_volume_attachment.test_block_attach,
+  ]
+  count = var.num_instances * var.num_iscsi_volumes_per_instance
 
-#   provisioner "remote-exec" {
-#     connection {
-#       agent       = false
-#       timeout     = "30m"
-#       host        = oci_core_instance.test_instance[count.index % var.num_instances].public_ip
-#       user        = "opc"
-#       private_key = var.ssh_private_key
-#     }
+  provisioner "remote-exec" {
+    connection {
+      agent       = false
+      timeout     = "30m"
+      host        = oci_core_instance.test_instance[count.index % var.num_instances].public_ip
+      user        = "opc"
+      private_key = "-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAzjlSmAtzSOhUHetzU5RBobxrpO/h+vVQmFywuiRiIWjUBm9A
+5xLpHA1ZTjSJ62NDhSg9TWBRj8LofguuZoL92n/nwnq1HnVmcBSs7qPrzYpEPQzi
+OziKQjd2B4GVuNzpiudRtoX5ou0BY8jaSXVJMNhkG/iJT95VQBeHEOT39S2X5/KC
+VXw6QJWbiKkeTAQ3KIv3TRDtmuqPlpubQjq5E7ji4zhanVhtLoALGcs/ysCGS/f5
+LOABnjPkaya/CgOgpOF5UhutrDA+KYeRmUl0GLL6HSY8qQvF5wG+p1uSxxKuimEq
+KBv1AYM1FVtG7MRUKBztZxrc2Zp9CiXeRrt67QIDAQABAoIBAA/s41D0iWmW73AE
+D7rjlxHrYBCzqarcqOWrOsaVKrLTypPYoZV2o2PUMBJXAlOYLc2pptpD1uiYL6YU
+NtqZwQrPl9Ev8q6weEGthxFCvWH5DH3+cbYLDrpAWDAKNMq63JoqdOf4fqezT8kp
+6JmFoipQe6KhVdFCJSk25+pJFFDtmefkTHX4K46oWbIAE59qDQxvF7QK5llvqSQk
+pEXieqkRiJFqOfrKtMxLrcjLPSna9+2t8/ZYbGzhUncp2UjExjyHoOUDGkNSx8g+
+86WfitdwbiGxC15xjGlOUwhWC3bZDLAFeQxKhFiY1n9/Ky4YNXf2l10oCy9L03RY
+C2pwRaECgYEA8LIRnat1x4o3wqLYuyPMiDf3RYQ1430Ety9SsoZkbmGguI7SkZzd
+kiM9fDZ4yNYf9Shsq2weXUNFWK4Ue2s3tR9JD8+XKyAW30q1A9KHMWNdkSEJJDao
+YBSBNIPYMo4ETp/wr8dQqSuY+vdt+YK8OyXIhBHg54gmR8dISi0CcUkCgYEA21Yj
+2N1ir0TQC6pKG9xpB2J8gkfJxVuO0EUAJl4emQVYEeaXsMWRFQ/9nBDyW/14+LMn
+rG3U4AcUAqJl9Mfq4GDUFBfwioSPYAhQW99iFDk9dJzbb5OTJ8Ox1z6FQe3dLldJ
+HvychoGIi/FuThvpd3BLPUm5NSL3vHXt0+lhoIUCgYBnzeQbA58/9zQlFOYzjzTe
+aoSRznsPKROnjRk1NRCLKj+OWMonUmecZuZVc4iT1QTjThPPukk+H40AudLLh2n3
+Cw8Pao/fYW97zVRT2a/EdP4dYQn4PDpRdYZjh5jt9KGW5xN+O49l5g+L7LnZKbDU
+MW9QxgUg1W7s9d0PYGn1QQKBgF6W5Hi26MMbUvlk4/bl8+l6YKWyneJd3NYWm7zw
+JBPryRJXNp3GZg4GSmHOsSZYxp3CbV6gMwi2JLwKGxwYR0OinnNX66VhC4/npfgo
++twr30P2DXAt3W1tqLlhvggzs4oznFYfrMUZAbEQWniW8vVOWTRCIfw3a008MmeM
+I00dAoGBAOsDPBnKINHCKWkP+PKZKz1uIlW7Wln+ef/89RoLk1sB8xz9Ayl+I5z2
+2fN72iiBG96lAqEIXdb+tERBcaaNfs3/LjawMvfsBZONG7mASrfLQoYMl+x95FG/
+55gyllYebXA2j0w/X8zk9rBbRmzjPinjUKAHS4bLQ61KIuKl/Os3
+-----END RSA PRIVATE KEY-----"
+    }
 
-#     inline = [
-#       "touch ~/IMadeAFile.Right.Here",
-#       "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port}",
-#       "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -n node.startup -v automatic",
-#       "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.authmethod -v CHAP",
-#       "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.username -v ${oci_core_volume_attachment.test_block_attach[count.index].chap_username}",
-#       "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.password -v ${oci_core_volume_attachment.test_block_attach[count.index].chap_secret}",
-#       "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -l",
-#     ]
-#   }
-# }
+    inline = [
+      "touch ~/IMadeAFile.Right.Here",
+      "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port}",
+      "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -n node.startup -v automatic",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.authmethod -v CHAP",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.username -v ${oci_core_volume_attachment.test_block_attach[count.index].chap_username}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -o update -n node.session.auth.password -v ${oci_core_volume_attachment.test_block_attach[count.index].chap_secret}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.test_block_attach[count.index].iqn} -p ${oci_core_volume_attachment.test_block_attach[count.index].ipv4}:${oci_core_volume_attachment.test_block_attach[count.index].port} -l",
+    ]
+  }
+}
 
 /*
 # Gets the boot volume attachments for each instance
