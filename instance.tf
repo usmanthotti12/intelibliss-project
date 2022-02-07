@@ -22,8 +22,7 @@ variable "compartment_ocid" {
 variable "ssh_public_key" {
 }
 
-variable "ssh_private_key" {
-}
+
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -122,13 +121,6 @@ resource "oci_core_instance" "test_instance" {
     "freeformkey${count.index}" = "freeformvalue${count.index}"
   }
 
-  preemptible_instance_config {
-    preemption_action {
-      type = "TERMINATE"
-      preserve_boot_volume = false
-    }
-  }
-
   timeouts {
     create = "60m"
   }
@@ -138,17 +130,6 @@ resource "oci_core_instance" "test_instance" {
 
 
 
-/*
-# Gets the boot volume attachments for each instance
-data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
-  depends_on          = [oci_core_instance.test_instance]
-  count               = var.num_instances
-  availability_domain = oci_core_instance.test_instance[count.index].availability_domain
-  compartment_id      = var.compartment_ocid
-
-  instance_id = oci_core_instance.test_instance[count.index].id
-}
-*/
 
 data "oci_core_instance_devices" "test_instance_devices" {
   count       = var.num_instances
@@ -185,15 +166,7 @@ output "instance_devices" {
   value = [data.oci_core_instance_devices.test_instance_devices.*.devices]
 }
 
-# Output the chap secret information for ISCSI volume attachments. This can be used to output
-# CHAP information for ISCSI volume attachments that have "use_chap" set to true.
-#output "IscsiVolumeAttachmentChapUsernames" {
-#  value = [oci_core_volume_attachment.test_block_attach.*.chap_username]
-#}
-#
-#output "IscsiVolumeAttachmentChapSecrets" {
-#  value = [oci_core_volume_attachment.test_block_attach.*.chap_secret]
-#}
+
 
 output "silver_policy_id" {
   value = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
