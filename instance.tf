@@ -60,7 +60,9 @@ variable "flex_instance_image_ocid" {
   type = map(string)
   default = {
     us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaffh3tppq63kph77k3plaaktuxiu43vnz2y5oefkec37kwh7oomea"
-    #ap-hyderabad-1 = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaaekpemzvbfdzhbr7rn56dyd2izcahouohna63qm2uaww5fcrg3viq"
+    ap-hyderabad-1 = "ocid1.image.oc1.ap-hyderabad-1.aaaaaaaaekpemzvbfdzhbr7rn56dyd2izcahouohna63qm2uaww5fcrg3viq"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaadvi77prh3vjijhwe5xbd6kjg3n5ndxjcpod6om6qaiqeu3csof7a"
+    uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaw5gvriwzjhzt2tnylrfnpanz5ndztyrv3zpwhlzxdbkqsjfkwxaq"
    
   }
 }
